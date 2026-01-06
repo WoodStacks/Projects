@@ -9,6 +9,9 @@ export default function NavBar() {
       <Link className="capitalize btn shadow-sm btn-ghost md-p-2 h-full" to="/ai">
         AI
       </Link>
+      <Link className="capitalize btn shadow-sm btn-ghost md-p-2 h-full" to="/mandelbrot">
+        Mandelbrot
+      </Link>
       <Link className="capitalize btn shadow-sm btn-ghost md-p-2 h-full" to="/about">
         About
       </Link>

@@ -5,18 +5,22 @@ import HomePage from "./Pages/HomePage";
 import AboutPage from "./Pages/AboutPage";
 import AI from "./Pages/AI";
 import Layout from "./Layout";
+import Mandelbrot from "./Pages/Mandelbrot";
 
 const routes = [{
   path: "/",
   element: <Layout />,
-  children: [
-  {
+  children: [{
     path: "/",
     element: <HomePage />,
   },
   {
     path: "/ai",
     element: <AI />,
+  },
+  {
+    path: "/mandelbrot",
+    element: <Mandelbrot />,
   },
   {
     path: "/about",
