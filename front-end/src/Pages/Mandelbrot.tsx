@@ -133,21 +133,27 @@ export default function Mandelbrot() {
   };
 
   return (
-    <canvas
-      ref={canvasRef}
-      width={800}
-      height={800}
-      onWheel={handleWheel}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={stopDrag}
-      onMouseLeave={stopDrag}
-      style={{
-        display: "block",
-        margin: "0 auto",
-        background: "#000",
-        cursor: dragging.current ? "grabbing" : "grab",
-      }}
-    />
+    <div className="flex flex-col justify-center">
+      <button onClick={() => setBounds({ minX: -2.5, maxX: 1, minY: -1.5, maxY: 1.5 })} className="btn btn-sm btn-ghost mb-2 mx-auto">
+        Reset View
+      </button>
+      <div className="mx-auto max-w-[800px] mb-2">This is the mandelbrot set. Use the mouse scroll wheel to zoom in and out, or use the mouse click to drag the view. Use the Reset View button to change the boundries back to default.</div>
+      <canvas
+        ref={canvasRef}
+        width={800}
+        height={800}
+        onWheel={handleWheel}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={stopDrag}
+        onMouseLeave={stopDrag}
+        style={{
+          display: "block",
+          margin: "0 auto",
+          background: "#000",
+          cursor: dragging.current ? "grabbing" : "grab",
+        }}
+      />
+    </div>
   );
-};
+}

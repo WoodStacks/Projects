@@ -28,7 +28,9 @@ const routes = [{
   },
 ]}];
 
-const router = createBrowserRouter(routes);
+const router = createBrowserRouter(routes, {
+  basename: "/Projects", // The base URL for all locations
+});
 
 export default function App() {
   return <RouterProvider router={router} />;
