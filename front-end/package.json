@@ -3,13 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "/",
+  "homepage": "https://woodstacks.github.io/Projects/",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "buildPages": "npm run build && git checkout --orphan gh-pages && cp -r .\\dist\\* ..\\ && git rm -rf .\\ && git add .\\ && git add ..\\ && git commit -m \"Deploying to gh-pages.\" && git push origin gh-pages"
+    "buildPages": "npm run build && git checkout -f gh-pages && cp -r -Force .\\dist\\* ..\\ && git rm -rf .\\ &&  git rm -rf ../assets/*"
   },
   "dependencies": {
     "@google/genai": "^1.34.0",
