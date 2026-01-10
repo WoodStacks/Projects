@@ -5,9 +5,7 @@ import type { SortingArrayItem } from "../Other/Types";
 import { sleep } from "../Other/Functions";
 import SortingComponent from "../Components/SortingComponent";
 import type { SortingComponentHandle } from "../Components/SortingComponent";
-
-const ARRAY_SIZE = 50;
-const MAX_VALUE = 300;
+import { MAX_VALUE } from "../Other/Defaults";
 
 async function finalCheck(
   array: SortingArrayItem[],
@@ -489,7 +487,7 @@ async function bucketSort(
 
   // Deep copy to avoid mutating state objects
   const arr = [...array];
-  const speed = 40;
+  const speed = 60;
   const bucketCount = 5;
 
   // Create empty buckets
@@ -553,6 +551,83 @@ async function bucketSort(
   setSorting(false);
 }
 
+async function radixSort(
+  array: SortingArrayItem[],
+  setArray: React.Dispatch<React.SetStateAction<SortingArrayItem[]>>,
+  setSorting: React.Dispatch<React.SetStateAction<boolean>>
+) {
+  setSorting(true);
+
+  let arr = [...array];
+
+  const maxDigits = getMaxDigits(arr);
+
+  for (let digit = 0; digit < maxDigits; digit++) {
+    await countingSortByDigit(arr, digit, setArray);
+  }
+
+  // Mark sorted
+  for (const bar of arr) {
+    bar.color = "blue";
+  }
+
+  setArray([...arr]);
+
+  await finalCheck(arr, setArray);
+
+  setSorting(false);
+}
+
+function getMaxDigits(arr: SortingArrayItem[]) {
+  let max = 0;
+  for (const bar of arr) {
+    max = Math.max(max, bar.value);
+  }
+  return max.toString().length;
+}
+
+async function countingSortByDigit(
+  arr: SortingArrayItem[],
+  digit: number,
+  setArray: React.Dispatch<React.SetStateAction<SortingArrayItem[]>>
+) {
+  const buckets: SortingArrayItem[][] = Array.from({ length: 10 }, () => []);
+
+  const speed = 40;
+
+  // Distribution phase
+  for (const bar of arr) {
+    const digitValue = Math.floor(bar.value / Math.pow(10, digit)) % 10;
+    bar.color = "purple";
+
+    buckets[digitValue].push(bar);
+
+    setArray([...arr]);
+    await sleep(speed);
+
+    bar.color = "green";
+  }
+
+  // Collection phase
+  let index = 0;
+  for (const bucket of buckets) {
+    for (const bar of bucket) {
+      arr[index++] = bar;
+
+      setArray([...arr]);
+      await sleep(speed);
+    }
+  }
+
+  // Reset colors after each digit pass
+  for (const bar of arr) {
+    bar.color = "red";
+  }
+
+  setArray([...arr]);
+  await sleep(speed);
+}
+
 export default function SortingVisualizer() {
   const childRef1 = useRef<SortingComponentHandle>(null);
   const childRef2 = useRef<SortingComponentHandle>(null);
@@ -561,15 +636,17 @@ export default function SortingVisualizer() {
   const childRef5 = useRef<SortingComponentHandle>(null);
   const childRef6 = useRef<SortingComponentHandle>(null);
   const childRef7 = useRef<SortingComponentHandle>(null);
+  const childRef8 = useRef<SortingComponentHandle>(null);
 
   const [isRunning, setIsRunning] = useState(false);
+  const [maxAmount, setMaxAmount] = useState(50);
 
   const handleClick = async () => {
     if (isRunning) return;
 
     setIsRunning(true);
 
-    const randomObj = randomArray(ARRAY_SIZE, MAX_VALUE);
+    const randomObj = randomArray(maxAmount, MAX_VALUE);
     const array = randomObj.array;
 
     // Deep copy to avoid mutating React state objects
@@ -580,6 +657,7 @@ export default function SortingVisualizer() {
     const array5 = array.map((b) => ({ ...b }));
     const array6 = array.map((b) => ({ ...b }));
     const array7 = array.map((b) => ({ ...b }));
+    const array8 = array.map((b) => ({ ...b }));
 
     try {
       await Promise.all([
@@ -590,6 +668,7 @@ export default function SortingVisualizer() {
         childRef5.current?.run(array5, randomObj.highestValue),
         childRef6.current?.run(array6, randomObj.highestValue),
         childRef7.current?.run(array7, randomObj.highestValue),
+        childRef8.current?.run(array8, randomObj.highestValue),
       ]);
     } catch (err) {
       console.error("One or more child operations failed", err);
@@ -608,16 +687,80 @@ export default function SortingVisualizer() {
         sorting example to do a reset. Click the sorting button to start
         sorting. If you wish to run them all at once, click the Run All Sorts
         button. If they all run at once, they will all receive the same starting
-        array, though note the timing is different for each one.
+        array, though note the timing is different for each one. Use the slider to adjust the array size.
       </div>
       <div className="max-w-[1000px] mx-auto">
-        <button
-          className="btn mb-[20px] mt-[20px] mx-auto"
-          disabled={isRunning}
-          onClick={handleClick}
-        >
-          Run All Sorts
-        </button>
+        <div className="mb-[20px] mt-[20px] flex flex-row">
+          <button
+            className="btn mr-[20px]"
+            disabled={isRunning}
+            onClick={handleClick}
+          >
+            Run All Sorts
+          </button>
+
+          <label className="mr-[20px]">Array Size:</label>
+
+          <div className="w-[400px]">
+            <input
+              type="range"
+              min={5}
+              max="100"
+              value={maxAmount}
+              className="range w-full"
+              step="5"
+              onChange={(e) => {
+                const value = e.target.value;
+                const maxAmount = parseInt(value);
+                setMaxAmount(maxAmount);
+              }}
+            />
+            <div className="flex justify-between px-3 mt-2 text-xs">
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+            </div>
+            <div className="flex justify-between px-3 mt-2 text-xs">
+              <span>5</span>
+              <span></span>
+              <span>15</span>
+              <span></span>
+              <span>25</span>
+              <span></span>
+              <span>35</span>
+              <span></span>
+              <span>45</span>
+              <span></span>
+              <span>55</span>
+              <span></span>
+              <span>65</span>
+              <span></span>
+              <span>75</span>
+              <span></span>
+              <span>85</span>
+              <span></span>
+              <span>95</span>
+              <span></span>
+            </div>
+          </div>
+        </div>
 
         <h2>Bubble Sort</h2>
         <div>
@@ -629,6 +772,7 @@ export default function SortingVisualizer() {
         </div>
         <SortingComponent
           buttonText="Bubble Sort"
+          maxSize={maxAmount}
           sortingFunction={bubbleSort}
           ref={childRef1}
         />
@@ -643,6 +787,7 @@ export default function SortingVisualizer() {
         </div>
         <SortingComponent
           buttonText="Selection Sort"
+          maxSize={maxAmount}
           sortingFunction={selectionSort}
           ref={childRef2}
         />
@@ -660,6 +805,7 @@ export default function SortingVisualizer() {
         </div>
         <SortingComponent
           buttonText="Insertion Sort"
+          maxSize={maxAmount}
           sortingFunction={insertionSort}
           ref={childRef3}
         />
@@ -676,6 +822,7 @@ export default function SortingVisualizer() {
         </div>
         <SortingComponent
           buttonText="Merge Sort"
+          maxSize={maxAmount}
           sortingFunction={mergeSort}
           ref={childRef4}
         />
@@ -694,6 +841,7 @@ export default function SortingVisualizer() {
         </div>
         <SortingComponent
           buttonText="Quick Sort"
+          maxSize={maxAmount}
           sortingFunction={quickSort}
           ref={childRef5}
         />
@@ -710,6 +858,7 @@ export default function SortingVisualizer() {
         </div>
         <SortingComponent
           buttonText="Heap Sort"
+          maxSize={maxAmount}
           sortingFunction={heapSort}
           ref={childRef6}
         />
@@ -728,8 +877,25 @@ export default function SortingVisualizer() {
         </div>
         <SortingComponent
           buttonText="Bucket Sort"
+          maxSize={maxAmount}
           sortingFunction={bucketSort}
           ref={childRef7}
+        />
+
+        <h2>Radix Sort</h2>
+        <div>
+          This is a non-comparative sorting algorithm that sorts data with
+          integer keys (or other data that can be broken down into fixed-length
+          "digits" like strings) by processing individual digits or characters
+          that share the same significant position and value. The time
+          complexity of the Radix Sort algorithm is O(d * (n + b)) (or O(n*k) in
+          some notations).
+        </div>
+        <SortingComponent
+          buttonText="Radix Sort"
+          maxSize={maxAmount}
+          sortingFunction={radixSort}
+          ref={childRef8}
         />
       </div>
     </div>

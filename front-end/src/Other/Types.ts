@@ -5,6 +5,7 @@ export type SortingArrayItem = {
 
 export interface SortingComponentProps {
   buttonText: string;
+  maxSize: number;
   sortingFunction: (
     array: SortingArrayItem[],
     setArray: React.Dispatch<React.SetStateAction<SortingArrayItem[]>>,

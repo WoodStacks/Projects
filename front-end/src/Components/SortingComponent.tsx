@@ -1,10 +1,8 @@
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useState, forwardRef, useImperativeHandle, useEffect } from "react";
 
 import { randomArray } from "../Other/Functions";
 import type { SortingArrayItem, SortingComponentProps } from "../Other/Types";
-
-const ARRAY_SIZE = 50;
-const MAX_VALUE = 300;
+import { MAX_VALUE } from "../Other/Defaults";
 
 export type SortingComponentHandle = {
   run: (array: SortingArrayItem[], highestValue: number) => Promise<void>;
@@ -13,12 +11,20 @@ export type SortingComponentHandle = {
 const SortingComponent = forwardRef<
   SortingComponentHandle,
   SortingComponentProps
->(({ buttonText, sortingFunction }, ref) => {
-  let randomObj = randomArray(ARRAY_SIZE, MAX_VALUE);
+>(({ buttonText, maxSize, sortingFunction }, ref) => {
+  let randomObj = randomArray(maxSize, MAX_VALUE);
 
   const [array, setArray] = useState<SortingArrayItem[]>(randomObj.array);
   const [height, setHeight] = useState(randomObj.highestValue);
   const [sorting, setSorting] = useState(false);
+
+  useEffect(() => {
+    if (sorting) return;
+
+    randomObj = randomArray(maxSize, MAX_VALUE);
+    setArray(randomObj.array);
+    setHeight(randomObj.highestValue);
+  }, [maxSize]);
 
   useImperativeHandle(ref, () => ({
     async run(array, highestValue) {
@@ -36,7 +42,7 @@ const SortingComponent = forwardRef<
         <button
           className="btn mr-[20px]"
           onClick={() => {
-            randomObj = randomArray(ARRAY_SIZE, MAX_VALUE);
+            randomObj = randomArray(maxSize, MAX_VALUE);
             setArray(randomObj.array);
             setHeight(randomObj.highestValue);
           }}
