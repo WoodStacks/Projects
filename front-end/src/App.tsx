@@ -2,10 +2,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import "./App.css";
 import HomePage from "./Pages/HomePage";
-import AboutPage from "./Pages/AboutPage";
 import AI from "./Pages/AI";
-import Layout from "./Layout";
+import Layout from "./Components/Layout";
 import Mandelbrot from "./Pages/Mandelbrot";
+import SortingVisualizer from "./Pages/SortingVisualizer";
 
 const routes = [{
   path: "/",
@@ -23,9 +23,9 @@ const routes = [{
     element: <Mandelbrot />,
   },
   {
-    path: "/about",
-    element: <AboutPage />,
-  },
+    path: "/sortingvisualizer",
+    element: <SortingVisualizer />,
+  }
 ]}];
 
 const router = createBrowserRouter(routes, {

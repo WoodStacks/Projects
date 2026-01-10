@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const ZOOM_SENSITIVITY = 0.001;
+const DOUBLE_CLICK_ZOOM = 0.5; // 0.5 = zoom in by 2x
 const BASE_ITER = 500;
 
 export default function Mandelbrot() {
@@ -102,6 +103,31 @@ export default function Mandelbrot() {
     });
   };
 
+  const handleDoubleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    const canvas = canvasRef.current!;
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+
+    const width = bounds.maxX - bounds.minX;
+    const height = bounds.maxY - bounds.minY;
+
+    const cx = bounds.minX + (mx / canvas.width) * width;
+    const cy = bounds.minY + (my / canvas.height) * height;
+
+    const newWidth = width * DOUBLE_CLICK_ZOOM;
+    const newHeight = height * DOUBLE_CLICK_ZOOM;
+
+    setBounds({
+      minX: cx - newWidth * (mx / canvas.width),
+      maxX: cx + newWidth * (1 - mx / canvas.width),
+      minY: cy - newHeight * (my / canvas.height),
+      maxY: cy + newHeight * (1 - my / canvas.height),
+    });
+  };
+
   const handleMouseDown = (e: React.MouseEvent) => {
     dragging.current = true;
     lastPos.current = { x: e.clientX, y: e.clientY };
@@ -134,15 +160,27 @@ export default function Mandelbrot() {
 
   return (
     <div className="flex flex-col justify-center">
-      <button onClick={() => setBounds({ minX: -2.5, maxX: 1, minY: -1.5, maxY: 1.5 })} className="btn btn-sm btn-ghost mb-2 mx-auto">
+      <h2 className="m-auto">Mandelbrot Set</h2>
+      <button
+        onClick={() =>
+          setBounds({ minX: -2.5, maxX: 1, minY: -1.5, maxY: 1.5 })
+        }
+        className="btn btn-sm mb-2 mx-auto mt-2"
+      >
         Reset View
       </button>
-      <div className="mx-auto max-w-[800px] mb-2">This is the mandelbrot set. Use the mouse scroll wheel to zoom in and out, or use the mouse click to drag the view. Use the Reset View button to change the boundries back to default.</div>
+      <div className="mx-auto max-w-[800px] mb-2">
+        This is an example of the mandelbrot set. Use the mouse scroll wheel to zoom in and
+        out, use the mouse double click to zoom in or use the mouse click to
+        drag the view. Use the Reset View button to change the boundries back to
+        default.
+      </div>
       <canvas
         ref={canvasRef}
         width={800}
         height={800}
         onWheel={handleWheel}
+        onDoubleClick={handleDoubleClick}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={stopDrag}

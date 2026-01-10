@@ -24,9 +24,9 @@ export default function NavBar() {
         </Link>
         <Link
           className="capitalize btn shadow-sm btn-ghost md-p-2 h-full"
-          to="/about"
+          to="/sortingvisualizer"
         >
-          About
+          SortingVisualizer
         </Link>
       </div>
       <div className="dropdown mt-[10px]">

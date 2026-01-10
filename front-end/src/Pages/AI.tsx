@@ -130,10 +130,27 @@ export default function AI() {
 
   return (
     <div className="flex flex-col h-full">
-      <div ref={thinkingRef} className="hidden items-center max-w-[1000px] m-auto h-full overflow-y-scroll">
+      <h2 className="m-auto flex-none">Google AI</h2>
+      <div className="max-w-[1000px] m-auto flex-none mt-[20px]">
+        This is an example that implements the Google AI. Specifically the
+        Gemini 3 Pro Preview version since free API keys are easy to get. If you
+        need to get an API key, visit the <a
+          className="bg-blueunderline text-blue-600 hover:text-blue-800 visited:text-purple-600"
+          href="https://aistudio.google.com/api-keys"
+        >
+           Google Studio page
+        </a>. Enter your API key and a prompt below to get started.
+      </div>
+      <div
+        ref={thinkingRef}
+        className="hidden items-center max-w-[1000px] m-auto h-full overflow-y-scroll mt-[20px]"
+      >
         <div>Thinking...</div>
       </div>
-      <div ref={containerRef} className="special-flex max-w-[1000px] m-auto h-full overflow-y-scroll">
+      <div
+        ref={containerRef}
+        className="special-flex max-w-[1000px] m-auto h-full overflow-y-scroll mt-[20px]"
+      >
         <ReactMarkdown
           components={{
             pre: ({ children }) => <>{children}</>,
