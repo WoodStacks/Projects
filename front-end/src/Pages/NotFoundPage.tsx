@@ -1,8 +1,6 @@
 export default function NotFoundPage() {
   return (
     <>
-      <meta http-equiv="refresh" content="0; URL=./" />
-      <title>Redirect</title>
       <div className="flex flex-col justify-center h-full">
         <div className="flex items-center max-w-[1000px] m-auto h-full mt-[20px]">
           <div className="flex flex-col">
