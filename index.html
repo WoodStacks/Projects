@@ -8,6 +8,16 @@
     <link rel="stylesheet" crossorigin href="/Projects/assets/index-B6s-Dit5.css">
   </head>
   <body class="h-full w-full">
+    <script>
+      (function () {
+        const redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+
+        if (redirect && redirect !== location.pathname) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
     <div id="root" class="h-full w-full"></div>
   </body>
 </html>
