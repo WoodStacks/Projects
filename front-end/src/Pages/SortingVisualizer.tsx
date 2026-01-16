@@ -687,7 +687,8 @@ export default function SortingVisualizer() {
         sorting example to do a reset. Click the sorting button to start
         sorting. If you wish to run them all at once, click the Run All Sorts
         button. If they all run at once, they will all receive the same starting
-        array, though note the timing is different for each one. Use the slider to adjust the array size.
+        array, though note the timing is different for each one. Use the slider
+        to adjust the array size.
       </div>
       <div className="max-w-[1000px] mx-auto">
         <div className="mb-[20px] mt-[20px] flex flex-row">
@@ -872,7 +873,8 @@ export default function SortingVisualizer() {
           input data is uniformly distributed across a known range. In the
           best-case scenario with uniform distribution, it can achieve linear
           time complexity of O(n + k), where 'n' is the number of elements and
-          'k' is the number of buckets.
+          'k' is the number of buckets. The example below is using a bucket size
+          of 5 so anything divisible by 5 will be linear.
         </div>
         <SortingComponent
           buttonText="Bucket Sort"
