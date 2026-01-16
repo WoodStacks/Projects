@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>SPA Redirect</title>
+
+    <script>
+      // Save the original URL the user tried to access
+      sessionStorage.redirect = location.pathname + location.search + location.hash;
+
+      // Redirect to index.html at the project root
+      location.replace("./index.html");
+    </script>
+  </head>
+  <body></body>
+</html>
