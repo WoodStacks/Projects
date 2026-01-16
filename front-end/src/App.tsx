@@ -6,10 +6,12 @@ import AI from "./Pages/AI";
 import Layout from "./Components/Layout";
 import Mandelbrot from "./Pages/Mandelbrot";
 import SortingVisualizer from "./Pages/SortingVisualizer";
+import NotFoundPage from "./Pages/NotFoundPage";
 
 const routes = [{
   path: "/",
   element: <Layout />,
+  errorElement: <NotFoundPage />,
   children: [{
     path: "/",
     element: <HomePage />,
@@ -29,7 +31,7 @@ const routes = [{
 ]}];
 
 const router = createBrowserRouter(routes, {
-  basename: "/Projects", // The base URL for all locations
+  basename: "/Projects/", // The base URL for all locations
 });
 
 export default function App() {

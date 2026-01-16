@@ -872,8 +872,7 @@ export default function SortingVisualizer() {
           input data is uniformly distributed across a known range. In the
           best-case scenario with uniform distribution, it can achieve linear
           time complexity of O(n + k), where 'n' is the number of elements and
-          'k' is the number of buckets. The below example has a size of 50 and a
-          bucket size of 5 which would make this linear.
+          'k' is the number of buckets.
         </div>
         <SortingComponent
           buttonText="Bucket Sort"
