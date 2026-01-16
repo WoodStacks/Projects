@@ -28,12 +28,14 @@ const SortingComponent = forwardRef<
 
   useImperativeHandle(ref, () => ({
     async run(array, highestValue) {
-
       setArray(array);
       setHeight(highestValue);
 
       await sortingFunction(array, setArray, setSorting);
     },
+    async stop() {
+
+    }
   }));
 
   return (

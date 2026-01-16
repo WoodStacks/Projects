@@ -7,12 +7,16 @@ import SortingComponent from "../Components/SortingComponent";
 import type { SortingComponentHandle } from "../Components/SortingComponent";
 import { MAX_VALUE } from "../Other/Defaults";
 
+let stop = false;
+
 async function finalCheck(
   array: SortingArrayItem[],
   setArray: React.Dispatch<React.SetStateAction<SortingArrayItem[]>>
 ) {
   //Do final check
   for (let i = 0; i < array.length; i++) {
+    if (stop) return;
+
     const arrayItem = array[i];
 
     if (i === array.length - 1) {
@@ -45,6 +49,8 @@ async function bubbleSort(
   lastItem.color = "orange";
 
   for (let i = 0; i < arr.length; i++) {
+    if (stop) return;
+
     const firstItem = arr[0];
     firstItem.color = "blue";
 
@@ -53,6 +59,8 @@ async function bubbleSort(
 
     const length = arr.length - i - 1;
     for (let j = 0; j < length; j++) {
+      if (stop) return;
+
       const arrayItem2 = arr[j];
 
       const comparingItem = arr[j + 1];
@@ -94,6 +102,8 @@ async function selectionSort(
   const speed = 20;
 
   for (let i = 0; i < arr.length; i++) {
+    if (stop) return;
+
     let min = i;
     let minArrayItem = arr[min];
     minArrayItem.color = "blue";
@@ -105,6 +115,8 @@ async function selectionSort(
     await sleep(speed);
 
     for (let j = i + 1; j < arr.length; j++) {
+      if (stop) return;
+
       //active item
       let activeArrayItem = arr[j];
       if (activeArrayItem.color !== "orange") {
@@ -167,6 +179,8 @@ async function insertionSort(
   const speed = 40;
 
   for (let i = 1; i < arr.length; i++) {
+    if (stop) return;
+
     const keyArrayItem = arr[i];
     keyArrayItem.color = "orange";
 
@@ -177,6 +191,8 @@ async function insertionSort(
     let insertIndexArrayItem = arr[j];
 
     while (j >= 0 && insertIndexArrayItem.value > keyArrayItem.value) {
+      if (stop) return;
+
       insertIndexArrayItem.color = "blue";
       arr[j + 1] = insertIndexArrayItem;
 
@@ -236,6 +252,8 @@ async function mergeSortRecursive(
   right: number,
   setArray: React.Dispatch<React.SetStateAction<SortingArrayItem[]>>
 ) {
+  if (stop) return;
+
   if (left >= right) return;
 
   const mid = Math.floor((left + right) / 2);
@@ -261,6 +279,8 @@ async function merge(
   let k = left;
 
   while (i < leftPart.length && j < rightPart.length) {
+    if (stop) return;
+
     leftPart[i].color = "purple";
     rightPart[j].color = "purple";
 
@@ -281,6 +301,8 @@ async function merge(
   }
 
   while (i < leftPart.length) {
+    if (stop) return;
+
     arr[k] = leftPart[i++];
     arr[k].color = "orange";
     k++;
@@ -290,6 +312,8 @@ async function merge(
   }
 
   while (j < rightPart.length) {
+    if (stop) return;
+
     arr[k] = rightPart[j++];
     arr[k].color = "orange";
     k++;
@@ -300,6 +324,8 @@ async function merge(
 
   // Reset colors after merge
   for (let idx = left; idx <= right; idx++) {
+    if (stop) return;
+
     arr[idx].color = "blue";
   }
 
@@ -327,6 +353,8 @@ async function quickSortRecursive(
   high: number,
   setArray: React.Dispatch<React.SetStateAction<SortingArrayItem[]>>
 ) {
+  if (stop) return;
+
   if (low >= high) {
     if (low >= 0 && high >= 0 && low < arr.length) {
       arr[low].color = "blue";
@@ -364,6 +392,8 @@ async function partition(
   await sleep(speed);
 
   for (let j = low; j < high; j++) {
+    if (stop) return 1;
+
     const arrayItem2 = arr[j];
     arrayItem2.color = "purple";
 
@@ -414,11 +444,15 @@ async function heapSort(
 
   // Build max heap
   for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+    if (stop) return;
+
     await heapify(arr, n, i, setArray, speed);
   }
 
   // Extract elements from heap one by one
   for (let i = n - 1; i > 0; i--) {
+    if (stop) return;
+
     // Move current root to end
     [arr[0], arr[i]] = [arr[i], arr[0]];
     arr[i].color = "blue";
@@ -446,6 +480,8 @@ async function heapify(
   setArray: React.Dispatch<React.SetStateAction<SortingArrayItem[]>>,
   speed: number
 ) {
+  if (stop) return;
+
   let largest = rootIndex;
   const left = 2 * rootIndex + 1;
   const right = 2 * rootIndex + 2;
@@ -500,6 +536,8 @@ async function bucketSort(
 
   // Distribute elements into buckets
   for (const bar of arr) {
+    if (stop) return;
+
     const bucketIndex = Math.min(
       Math.floor(bar.value / bucketSize),
       bucketCount - 1
@@ -516,12 +554,18 @@ async function bucketSort(
   let writeIndex = 0;
 
   for (const bucket of buckets) {
+    if (stop) return;
+
     // Insertion sort per bucket
     for (let i = 1; i < bucket.length; i++) {
       const current = bucket[i];
+      if (stop) return;
+
       let j = i - 1;
 
       while (j >= 0 && bucket[j].value > current.value) {
+        if (stop) return;
+
         bucket[j + 1] = bucket[j];
         j--;
       }
@@ -531,6 +575,8 @@ async function bucketSort(
 
     // Write bucket back to main array
     for (const bar of bucket) {
+      if (stop) return;
+
       bar.color = "green";
       arr[writeIndex++] = bar;
 
@@ -541,6 +587,8 @@ async function bucketSort(
 
   // Mark array as sorted
   for (const bar of arr) {
+    if (stop) return;
+
     bar.color = "blue";
   }
 
@@ -563,11 +611,15 @@ async function radixSort(
   const maxDigits = getMaxDigits(arr);
 
   for (let digit = 0; digit < maxDigits; digit++) {
+    if (stop) return;
+
     await countingSortByDigit(arr, digit, setArray);
   }
 
   // Mark sorted
   for (const bar of arr) {
+    if (stop) return;
+
     bar.color = "blue";
   }
 
@@ -581,6 +633,8 @@ async function radixSort(
 function getMaxDigits(arr: SortingArrayItem[]) {
   let max = 0;
   for (const bar of arr) {
+    if (stop) return 1;
+
     max = Math.max(max, bar.value);
   }
   return max.toString().length;
@@ -597,6 +651,8 @@ async function countingSortByDigit(
 
   // Distribution phase
   for (const bar of arr) {
+    if (stop) return;
+
     const digitValue = Math.floor(bar.value / Math.pow(10, digit)) % 10;
     bar.color = "purple";
 
@@ -611,6 +667,8 @@ async function countingSortByDigit(
   // Collection phase
   let index = 0;
   for (const bucket of buckets) {
+    if (stop) return;
+
     for (const bar of bucket) {
       arr[index++] = bar;
 
@@ -621,6 +679,8 @@ async function countingSortByDigit(
 
   // Reset colors after each digit pass
   for (const bar of arr) {
+    if (stop) return;
+
     bar.color = "red";
   }
 
@@ -638,13 +698,14 @@ export default function SortingVisualizer() {
   const childRef7 = useRef<SortingComponentHandle>(null);
   const childRef8 = useRef<SortingComponentHandle>(null);
 
-  const [isRunning, setIsRunning] = useState(false);
   const [maxAmount, setMaxAmount] = useState(50);
 
   const handleClick = async () => {
-    if (isRunning) return;
+    stop = true;
 
-    setIsRunning(true);
+    await sleep(500);
+
+    stop = false;
 
     const randomObj = randomArray(maxAmount, MAX_VALUE);
     const array = randomObj.array;
@@ -672,8 +733,6 @@ export default function SortingVisualizer() {
       ]);
     } catch (err) {
       console.error("One or more child operations failed", err);
-    } finally {
-      setIsRunning(false);
     }
   };
 
@@ -688,15 +747,16 @@ export default function SortingVisualizer() {
         sorting. If you wish to run them all at once, click the Run All Sorts
         button. If they all run at once, they will all receive the same starting
         array, though note the timing is different for each one. Use the slider
-        to adjust the array size.
+        to adjust the array size. 
+        <br />
+        <br />
+        Note: When running all at once, there is a
+        half second pause in the beginning to stop any sorts currently happening
+        so the button can be clicked multiple times without harm.
       </div>
       <div className="max-w-[1000px] mx-auto">
         <div className="mb-[20px] mt-[20px] flex flex-row">
-          <button
-            className="btn mr-[20px]"
-            disabled={isRunning}
-            onClick={handleClick}
-          >
+          <button className="btn mr-[20px]" onClick={handleClick}>
             Run All Sorts
           </button>
 
