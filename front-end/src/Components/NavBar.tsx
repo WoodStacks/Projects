@@ -53,6 +53,12 @@ export default function NavBar() {
         >
           Sorting Visualizer
         </Link>
+        <Link
+          className="capitalize btn shadow-sm btn-ghost md-p-2 h-full"
+          to="/weather"
+        >
+          Weather
+        </Link>
       </div>
       <div className="dropdown mt-[10px]">
         <div tabIndex={0} role="button" className="btn m-1">
