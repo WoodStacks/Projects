@@ -7,6 +7,7 @@ import Layout from "./Components/Layout";
 import Mandelbrot from "./Pages/Mandelbrot";
 import SortingVisualizer from "./Pages/SortingVisualizer";
 import NotFoundPage from "./Pages/NotFoundPage";
+import Markdown from "./Pages/Markdown";
 
 const routes = [{
   path: "/",
@@ -19,6 +20,10 @@ const routes = [{
   {
     path: "/ai",
     element: <AI />,
+  },
+  {
+    path: "/markdown",
+    element: <Markdown />,
   },
   {
     path: "/mandelbrot",

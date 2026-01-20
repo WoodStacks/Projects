@@ -170,10 +170,16 @@ export default function Mandelbrot() {
         Reset View
       </button>
       <div className="mx-auto max-w-[800px] mb-2">
-        This is an example of the mandelbrot set. Use the mouse scroll wheel to zoom in and
-        out, use the mouse double click to zoom in or use the mouse click to
-        drag the view. Use the Reset View button to change the boundries back to
-        default.
+        This is an example of the mandelbrot set. Use the mouse scroll wheel to
+        zoom in and out, use the mouse double click to zoom in or use the mouse
+        click to drag the view. Use the Reset View button to change the
+        boundries back to default.
+        <br />
+        <br />I tried different ways of rendering the Mandelbrot set such as
+        using straight JavaScript vs using Shaders. I also tried using an open
+        source JS class for decimal floating point but it was running too slow.
+        I settled for just using straight JS even though it's not the most
+        performant.
       </div>
       <canvas
         ref={canvasRef}

@@ -100,6 +100,7 @@ export default function AI() {
 
       console.log(newText);
 
+      debugger;
       if (fullResponseText === "") {
         setFullResponseText("### " + prompt + "\n\n" + newText);
       } else {
@@ -139,7 +140,8 @@ export default function AI() {
           href="https://aistudio.google.com/api-keys"
         >
            Google Studio page
-        </a>. Enter your API key and a prompt below to get started.
+        </a>. This will display the response from the API using markdown. 
+        Enter your API key and a prompt below to get started.
       </div>
       <div
         ref={thinkingRef}

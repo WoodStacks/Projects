@@ -1,6 +1,25 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function NavBar() {
+  let savedTheme =
+    typeof window !== "undefined" ? localStorage.getItem("theme") : "Default";
+
+  const handleThemeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const theme = e.target.value;
+
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  };
+
+  useEffect(() => {
+    savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme) {
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    }
+  }, []);
+
   return (
     <>
       <div className="navbar w-auto p-[0px] mr-[20px]">
@@ -15,6 +34,12 @@ export default function NavBar() {
           to="/ai"
         >
           AI
+        </Link>
+        <Link
+          className="capitalize btn shadow-sm btn-ghost md-p-2 h-full"
+          to="/markdown"
+        >
+          Markdown
         </Link>
         <Link
           className="capitalize btn shadow-sm btn-ghost md-p-2 h-full"
@@ -53,6 +78,8 @@ export default function NavBar() {
               className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Default"
               value="default"
+              onChange={handleThemeChange}
+              defaultChecked={savedTheme === "default"}
             />
           </li>
           <li>
@@ -62,6 +89,8 @@ export default function NavBar() {
               className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Light"
               value="light"
+              onChange={handleThemeChange}
+              defaultChecked={savedTheme === "light"}
             />
           </li>
           <li>
@@ -71,6 +100,8 @@ export default function NavBar() {
               className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Dark"
               value="dark"
+              onChange={handleThemeChange}
+              defaultChecked={savedTheme === "dark"}
             />
           </li>
           <li>
@@ -80,6 +111,8 @@ export default function NavBar() {
               className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Retro"
               value="retro"
+              onChange={handleThemeChange}
+              defaultChecked={savedTheme === "retro"}
             />
           </li>
           <li>
@@ -89,6 +122,8 @@ export default function NavBar() {
               className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Cyberpunk"
               value="cyberpunk"
+              onChange={handleThemeChange}
+              defaultChecked={savedTheme === "cyberpunk"}
             />
           </li>
           <li>
@@ -98,6 +133,8 @@ export default function NavBar() {
               className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Valentine"
               value="valentine"
+              onChange={handleThemeChange}
+              defaultChecked={savedTheme === "valentine"}
             />
           </li>
           <li>
@@ -107,6 +144,8 @@ export default function NavBar() {
               className="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Aqua"
               value="aqua"
+              onChange={handleThemeChange}
+              defaultChecked={savedTheme === "aqua"}
             />
           </li>
         </ul>
