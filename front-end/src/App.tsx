@@ -8,7 +8,6 @@ import Mandelbrot from "./Pages/Mandelbrot";
 import SortingVisualizer from "./Pages/SortingVisualizer";
 import NotFoundPage from "./Pages/NotFoundPage";
 import Markdown from "./Pages/Markdown";
-import Weather from "./Pages/Weather";
 
 const routes = [{
   path: "/",
@@ -33,10 +32,6 @@ const routes = [{
   {
     path: "/sortingvisualizer",
     element: <SortingVisualizer />,
-  },
-  {
-    path: "/weather",
-    element: <Weather />,
   }
 ]}];
 

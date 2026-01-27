@@ -12,6 +12,9 @@ export default function Markdown() {
         <h2 className="m-auto flex-none">Markdown</h2>
         <div className="max-w-[1000px] m-auto flex-none mt-[20px]">
           This is an example showing how Markdown text can be rendered and styled using React.
+          <br />
+          <br />
+          I entered the prompt "Show a react example that uses react markdown and react syntax highlighter that adds a copy button above the code block that copies the code block".
         </div>
         <div className="special-flex max-w-[1000px] m-auto h-full overflow-y-scroll mt-[20px] mb-[40px]">
           <ReactMarkdown
