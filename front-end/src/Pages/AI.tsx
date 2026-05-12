@@ -41,12 +41,17 @@ export default function AI() {
       },
     ];
     const config = {
-      thinkingConfig: {
-        thinkingLevel: ThinkingLevel.HIGH,
-      },
+      // thinkingConfig: {
+      //   thinkingLevel: ThinkingLevel.HIGH,
+      // },
       tools,
     };
-    const model = "gemini-3-pro-preview";
+    // const model = "gemini-3.1-pro-preview";
+    // const model = "gemini-3-flash-preview";
+    // const model = "gemini-flash-latest";
+    // const model = "gemini-pro-latest";
+    // const model = "gemini-3.1-flash-lite";
+    const model = "gemini-2.5-flash-lite";
     const contents = [
       {
         role: "user",
@@ -100,7 +105,6 @@ export default function AI() {
 
       console.log(newText);
 
-      debugger;
       if (fullResponseText === "") {
         setFullResponseText("### " + prompt + "\n\n" + newText);
       } else {
@@ -134,7 +138,7 @@ export default function AI() {
       <h2 className="m-auto flex-none">Google AI</h2>
       <div className="max-w-[1000px] m-auto flex-none mt-[20px]">
         This is an example that implements the Google AI. Specifically the
-        Gemini 3 Pro Preview version since free API keys are easy to get. If you
+        Gemini 2.5 Flash Lite version since free API keys are easy to get. If you
         need to get an API key, visit the <a
           className="bg-blueunderline text-blue-600 hover:text-blue-800 visited:text-purple-600"
           href="https://aistudio.google.com/api-keys"
